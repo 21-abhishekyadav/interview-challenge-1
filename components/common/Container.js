@@ -3,7 +3,7 @@ import useWindowWidth from '../hooks/useWindowWidth';
 
 export default function Container({ children }) {
   const { isSmallerDevice } = useWindowWidth();
-  return (
+  return ( 
     <div
       style={{
         display: 'flex',

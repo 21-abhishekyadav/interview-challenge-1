@@ -10,8 +10,12 @@ const PostContainer = styled.div(() => ({
   overflow: 'hidden',
 }));
 
+
+
 const CarouselContainer = styled.div(() => ({
   position: 'relative',
+
+  
 }));
 
 const Carousel = styled.div(() => ({
@@ -35,6 +39,8 @@ const Image = styled.img(() => ({
   height: 'auto',
   maxHeight: '300px',
   padding: '10px',
+  zIndex:'10',
+
 }));
 
 const Content = styled.div(() => ({
@@ -69,7 +75,7 @@ const Post = ({ post }) => {
   const handleNextClick = () => {
     if (carouselRef.current) {
       carouselRef.current.scrollBy({
-        left: 50,
+        left: 300,
         behavior: 'smooth',
       });
     }
@@ -78,19 +84,66 @@ const Post = ({ post }) => {
   const handlePrevClick = () => {
     if (carouselRef.current) {
       carouselRef.current.scrollBy({
-        left: -70,
+        left: -300,
         behavior: 'smooth',
       });
     }
   };
 
+
+  // code for header name section
+  let name = post.user.name
+  const myArray = name.split(" "); 
+  let word = myArray[0][0]+ myArray[1][0];
+
+  const NameContainer = styled.div(() => ({
+
+    padding: '10px',
+    '& > h2': {
+      marginBottom: '16px',
+    },
+    display:'flex'
+  }));
+
+  const Logo = styled.div(() => ({
+    position: 'relative',
+    margin:'10px',
+    padding: '10px',
+    backgroundColor:'grey',
+    borderRadius:"70%",
+    color:'white'
+    
+  }));
+
+  const Details = styled.div(() => ({
+    position: 'relative',
+    padding: '10px',
+    '& > h2': {
+      marginBottom: '16px',
+    },
+  }));
+
   return (
     <PostContainer>
+      <NameContainer>
+        <Logo><h2>{word}</h2></Logo>  
+        <Details>
+        <b>{post.user.name}</b>
+        <br/>
+        {post.user.email}
+        
+
+        
+
+        </Details>
+        
+      </NameContainer>
       <CarouselContainer>
         <Carousel ref={carouselRef}>
           {post.images.map((image, index) => (
             <CarouselItem key={index}>
-              <Image src={image.url} alt={post.title} />
+              <Image src={image.url} alt={post.title} 
+              />
             </CarouselItem>
           ))}
         </Carousel>

@@ -3,7 +3,9 @@ import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import Post from './Post';
 import Container from '../common/Container';
-import useWindowWidth from '../hooks/useWindowWidth';
+//import useWindowWidth from '../hooks/useWindowWidth';
+//importing context api
+import { useWindowWidthContext } from '../context/WindowWidthContext';
 
 const PostListContainer = styled.div(() => ({
   display: 'flex',
@@ -35,27 +37,47 @@ const LoadMoreButton = styled.button(() => ({
 export default function Posts() {
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  // using context api
+  const { isSmallerDevice } = useWindowWidthContext();
+  const [limit, setlimit] = useState(isSmallerDevice ? 5 : 10);
 
-  const { isSmallerDevice } = useWindowWidth();
+
+
+
+  
 
   useEffect(() => {
     const fetchPost = async () => {
+      setIsLoading(true);
       const { data: posts } = await axios.get('/api/v1/posts', {
-        params: { start: 0, limit: isSmallerDevice ? 5 : 10 },
+        params : { start: 0, limit: limit },
       });
       setPosts(posts);
+      setIsLoading(false);
+      setlimit(isSmallerDevice ? limit+5 : limit+10);
+
     };
 
     fetchPost();
   }, [isSmallerDevice]);
 
-  const handleClick = () => {
-    setIsLoading(true);
 
-    setTimeout(() => {
+  const handleClick = () => {
+ 
+    const fetchPost = async () => {
+      setIsLoading(true);
+      const { data: posts } = await axios.get('/api/v1/posts', {
+        params : { start: 0, limit: limit },
+      });
+      setPosts(posts);
       setIsLoading(false);
-    }, 3000);
+      setlimit(isSmallerDevice ? limit+5 : limit+10);
+    };
+  
+      fetchPost();
+    
   };
+
 
   return (
     <Container>
@@ -66,7 +88,7 @@ export default function Posts() {
       </PostListContainer>
 
       <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <LoadMoreButton onClick={handleClick} disabled={isLoading}>
+        <LoadMoreButton onClick={handleClick} disabled={isLoading || (limit>=110)}>
           {!isLoading ? 'Load More' : 'Loading...'}
         </LoadMoreButton>
       </div>

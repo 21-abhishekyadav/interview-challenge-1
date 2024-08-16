@@ -1,14 +1,11 @@
 import React from 'react';
 import styled from '@emotion/styled';
 
+
 const Navbar = styled('nav')(() => ({
-  backgroundColor: '#333',
+  zIndex:'1000',
   color: '#fff',
-  width: '100%',
-  position: 'absolute',
-  top: 0,
-  left: 0,
-  zIndex: 1000,
+  width: '100%'
 }));
 
 const ListItem = styled('li')(() => ({
@@ -29,7 +26,17 @@ const Link = styled('a')(() => ({
 
 const TopNavbar = () => {
   return (
-    <div>
+    
+    // following style elements are used to make navbar sticky 
+
+    <div style={{
+      display : 'flex',
+      backgroundColor: '#333',
+      position : 'sticky',
+        top: '0px',
+  zIndex:'1000',
+
+    }}>
       <Navbar>
         <ul style={{}}>
           <ListItem>
