@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 
+
 function useWindowWidth() {
   const [isSmallerDevice, setIsSmallerDevice] = useState(false);
 
